@@ -36,9 +36,13 @@ func Program() {
 	if err != nil {
 		Logger.Fatal(err)
 	}
-	err = database.ConnectToDatabase()
-	if err != nil {
-		Logger.Fatal(err)
+	for _, outputConf := range config.Instance.Output {
+		if outputConf == service.SqliteOutput {
+			err = database.ConnectToDatabase()
+			if err != nil {
+				Logger.Fatal(err)
+			}
+		}
 	}
 	go func() {
 		api.RunAPIService()

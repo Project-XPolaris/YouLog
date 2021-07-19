@@ -2,10 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/projectxpolaris/youlog/database"
 	"github.com/projectxpolaris/youlog/pb"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 var (
@@ -42,14 +40,11 @@ func (w *LogWriter) Run(ctx context.Context) {
 	writeLogger.Info("writer is running")
 }
 func (w *LogWriter) writeLog(data *pb.LogData) error {
-	logData := database.Log{
-		Application: data.Application,
-		Instance:    data.Instance,
-		Scope:       data.Scope,
-		Level:       data.Level,
-		Message:     data.Message,
-		Extra:       data.Extra,
-		Time:        time.Unix(0, data.Time*int64(time.Millisecond)),
+	for _, output := range GetLogOutputs() {
+		err := output.writeLog(data)
+		if err != nil {
+			return err
+		}
 	}
-	return database.Instance.Save(&logData).Error
+	return nil
 }

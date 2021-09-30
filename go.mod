@@ -3,7 +3,7 @@ module github.com/projectxpolaris/youlog
 go 1.16
 
 require (
-	github.com/allentom/haruka v0.0.0-20210318094355-e84d0a169cfa
+	github.com/allentom/haruka v0.0.0-20210930094935-5a64a7d20f7f
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/kardianos/service v1.2.0
 	github.com/rs/cors v1.8.0
@@ -18,7 +18,4 @@ require (
 	google.golang.org/protobuf v1.27.1
 	gorm.io/driver/sqlite v1.1.5
 	gorm.io/gorm v1.21.15
-)
-replace (
-	github.com/allentom/haruka => C:\Users\aren\Desktop\haruka
 )

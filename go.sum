@@ -50,6 +50,8 @@ github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuy
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
 github.com/allentom/haruka v0.0.0-20210318094355-e84d0a169cfa h1:awMui7S0jmc77tSRwwLWcQeMoPaH/WdUpb6DHlKG/s4=
 github.com/allentom/haruka v0.0.0-20210318094355-e84d0a169cfa/go.mod h1:bGlYqqR11LoL33wZkDk73GTAcqjS42AX2kX7XbBWTRk=
+github.com/allentom/haruka v0.0.0-20210930094935-5a64a7d20f7f h1:6H7lvEcqY6roJ9lRhiwWBCM4JzwIGY+FCrOnkRbLWsw=
+github.com/allentom/haruka v0.0.0-20210930094935-5a64a7d20f7f/go.mod h1:bGlYqqR11LoL33wZkDk73GTAcqjS42AX2kX7XbBWTRk=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=

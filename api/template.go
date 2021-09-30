@@ -2,13 +2,14 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/projectxpolaris/youlog/database"
+	"github.com/projectxpolaris/youlog/datasource"
 	"github.com/sirupsen/logrus"
 )
 
 var defaultTimeFormat = "2006-01-02 15:04:05"
 
 type BaseLogTemplate struct {
+	Id          string      `json:"id"`
 	Application string      `json:"application"`
 	Instance    string      `json:"instance"`
 	Scope       string      `json:"scope"`
@@ -18,17 +19,18 @@ type BaseLogTemplate struct {
 	Time        string      `json:"time"`
 }
 
-func (t *BaseLogTemplate) Assign(log *database.Log) {
-	t.Instance = log.Instance
-	t.Application = log.Application
-	t.Scope = log.Scope
-	t.Level = log.Level
-	t.Message = log.Message
+func (t *BaseLogTemplate) Assign(log datasource.Log) {
+	t.Id = log.GetId()
+	t.Instance = log.GetInstance()
+	t.Application = log.GetApplication()
+	t.Scope = log.GetScope()
+	t.Level = log.GetLevel()
+	t.Message = log.GetMessage()
 	extra := map[string]interface{}{}
-	err := json.Unmarshal([]byte(log.Extra), &extra)
+	err := json.Unmarshal([]byte(log.GetExtra().(string)), &extra)
 	if err != nil {
 		logrus.Error(err)
 	}
 	t.Extra = extra
-	t.Time = log.Time.Format(defaultTimeFormat)
+	t.Time = log.GetTime().Format(defaultTimeFormat)
 }

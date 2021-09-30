@@ -5,7 +5,7 @@ import (
 	srv "github.com/kardianos/service"
 	"github.com/projectxpolaris/youlog/api"
 	"github.com/projectxpolaris/youlog/config"
-	"github.com/projectxpolaris/youlog/database"
+	"github.com/projectxpolaris/youlog/datasource/sqlite"
 	"github.com/projectxpolaris/youlog/rpc"
 	"github.com/projectxpolaris/youlog/service"
 	"github.com/sirupsen/logrus"
@@ -38,7 +38,7 @@ func Program() {
 	}
 	for _, outputConf := range config.Instance.Output {
 		if outputConf == service.SqliteOutput {
-			err = database.ConnectToDatabase()
+			err = sqlite.DefaultSqliteDataSource.Init()
 			if err != nil {
 				Logger.Fatal(err)
 			}

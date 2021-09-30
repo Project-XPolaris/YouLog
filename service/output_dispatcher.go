@@ -1,6 +1,8 @@
 package service
 
-import "github.com/projectxpolaris/youlog/config"
+import (
+	"github.com/projectxpolaris/youlog/config"
+)
 
 func GetLogOutputs() []LogOutput {
 	outputs := make([]LogOutput, 0)

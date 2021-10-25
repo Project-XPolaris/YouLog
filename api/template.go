@@ -26,11 +26,21 @@ func (t *BaseLogTemplate) Assign(log datasource.Log) {
 	t.Scope = log.GetScope()
 	t.Level = log.GetLevel()
 	t.Message = log.GetMessage()
-	extra := map[string]interface{}{}
-	err := json.Unmarshal([]byte(log.GetExtra().(string)), &extra)
-	if err != nil {
-		logrus.Error(err)
+	if len(log.GetExtra().(string)) != 0 {
+		extra := map[string]interface{}{}
+		err := json.Unmarshal([]byte(log.GetExtra().(string)), &extra)
+		if err != nil {
+			logrus.Error(err)
+		}
+		t.Extra = extra
 	}
-	t.Extra = extra
 	t.Time = log.GetTime().Format(defaultTimeFormat)
+}
+
+type BaseApplicationTemplate struct {
+	Name string `json:"name"`
+}
+
+func (t *BaseApplicationTemplate) Assign(log datasource.Log) {
+	t.Name = log.GetApplication()
 }

@@ -40,7 +40,13 @@ func (s *DataSource) ReadLogs(queryBuilder datasource.LogListQueryBuilder) (int6
 			}
 		}
 	}
-	err := queryDB.Offset((queryBuilder.Page - 1) * queryBuilder.PageSize).Limit(queryBuilder.PageSize).Find(&list).Count(&count).Error
+	if len(queryBuilder.ApplicationSearch) > 0 {
+		queryDB = queryDB.Where("application like ?", fmt.Sprintf("%%%s%%", queryBuilder.ApplicationSearch))
+	}
+	if queryBuilder.DistinctApp {
+		queryDB = queryDB.Distinct("Application")
+	}
+	err := queryDB.Offset((queryBuilder.Page - 1) * queryBuilder.PageSize).Limit(queryBuilder.PageSize).Find(&list).Offset(-1).Count(&count).Error
 	if err != nil {
 		return count, nil, err
 	}

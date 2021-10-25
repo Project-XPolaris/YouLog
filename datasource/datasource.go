@@ -15,13 +15,15 @@ type Log interface {
 	GetTime() *time.Time
 }
 type LogListQueryBuilder struct {
-	Page        int
-	PageSize    int
-	LogLevels   []string
-	StartTime   *time.Time
-	EndTime     *time.Time
-	Application string
-	Orders      []string
+	Page              int
+	PageSize          int
+	LogLevels         []string
+	StartTime         *time.Time
+	EndTime           *time.Time
+	Application       string
+	Orders            []string
+	DistinctApp       bool
+	ApplicationSearch string
 }
 
 func (b *LogListQueryBuilder) WithPage(page int) *LogListQueryBuilder {
@@ -50,6 +52,14 @@ func (b *LogListQueryBuilder) OfApplication(application string) *LogListQueryBui
 }
 func (b *LogListQueryBuilder) WithOrder(orders []string) *LogListQueryBuilder {
 	b.Orders = orders
+	return b
+}
+func (b *LogListQueryBuilder) InDistinctApp(value bool) *LogListQueryBuilder {
+	b.DistinctApp = value
+	return b
+}
+func (b *LogListQueryBuilder) SearchKeyOfApplication(key string) *LogListQueryBuilder {
+	b.ApplicationSearch = key
 	return b
 }
 

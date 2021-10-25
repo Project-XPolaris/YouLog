@@ -13,5 +13,6 @@ func RunAPIService() {
 	e.UseMiddleware(middleware.NewLoggerMiddleware())
 	e.UseMiddleware(middleware.NewPaginationMiddleware("page", "pageSize", 1, 20))
 	e.Router.GET("/log", logListHandler)
+	e.Router.GET("/log/application", applicationListHandler)
 	e.RunAndListen(config.Instance.ApiAddr)
 }

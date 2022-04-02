@@ -1,5 +1,0 @@
-addr: ":50052"
-api_addr: ":8401"
-output:
-  - stdout
-  - sqlite

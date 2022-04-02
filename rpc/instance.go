@@ -2,8 +2,8 @@ package rpc
 
 import (
 	context "context"
+	"github.com/project-xpolaris/youplustoolkit/youlog/logservice"
 	"github.com/projectxpolaris/youlog/config"
-	"github.com/projectxpolaris/youlog/pb"
 	"github.com/projectxpolaris/youlog/service"
 	"google.golang.org/grpc"
 	"log"
@@ -23,7 +23,7 @@ func (l *LogServer) Run() {
 	}
 	rpcServer := grpc.NewServer()
 	l.server = Server{}
-	pb.RegisterLogServiceServer(rpcServer, &l.server)
+	logservice.RegisterLogServiceServer(rpcServer, &l.server)
 	log.Printf("server listening at %v", lis.Addr())
 	if err := rpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
@@ -31,10 +31,10 @@ func (l *LogServer) Run() {
 }
 
 type Server struct {
-	pb.UnimplementedLogServiceServer
+	logservice.UnimplementedLogServiceServer
 }
 
-func (l *Server) WriteLog(ctx context.Context, data *pb.LogData) (*pb.WriteReply, error) {
+func (l *Server) WriteLog(ctx context.Context, data *logservice.LogData) (*logservice.WriteReply, error) {
 	service.DefaultLogWriter.In <- data
-	return &pb.WriteReply{Success: true}, nil
+	return &logservice.WriteReply{Success: true}, nil
 }

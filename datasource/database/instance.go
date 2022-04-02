@@ -1,20 +1,20 @@
-package sqlite
+package database
 
 import (
 	"fmt"
 	"github.com/projectxpolaris/youlog/datasource"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"strings"
 )
 
-var DefaultSqliteDataSource datasource.LogDataSource = &DataSource{}
+var DatabaseDataSourceList = make([]*DatabaseDataSource, 0)
 
-type DataSource struct {
+type DatabaseDataSource struct {
+	Name     string
 	Instance *gorm.DB
 }
 
-func (s *DataSource) ReadLogs(queryBuilder datasource.LogListQueryBuilder) (int64, []datasource.Log, error) {
+func (s *DatabaseDataSource) ReadLogs(queryBuilder datasource.LogListQueryBuilder) (int64, []datasource.Log, error) {
 	var list []*Log
 	var count int64
 	queryDB := s.Instance
@@ -57,16 +57,10 @@ func (s *DataSource) ReadLogs(queryBuilder datasource.LogListQueryBuilder) (int6
 	return count, result, nil
 }
 
-func (s *DataSource) Init() error {
-	var err error
-	s.Instance, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
-	if err != nil {
-		return err
-	}
-
-	err = s.Instance.AutoMigrate(&Log{})
-	if err != nil {
-		return err
-	}
+func (s *DatabaseDataSource) Init() error {
 	return nil
+}
+
+func GetDefaultDataSource() datasource.LogDataSource {
+	return DatabaseDataSourceList[0]
 }

@@ -2,7 +2,7 @@ package service
 
 import (
 	"encoding/json"
-	"github.com/projectxpolaris/youlog/pb"
+	"github.com/project-xpolaris/youplustoolkit/youlog/logservice"
 	"github.com/sirupsen/logrus"
 	"time"
 )
@@ -12,7 +12,7 @@ var defaultTimeFormat = "2006-01-02 15:04:05"
 type StdoutLogOutput struct {
 }
 
-func (o *StdoutLogOutput) writeLog(data *pb.LogData) error {
+func (o *StdoutLogOutput) writeLog(data *logservice.LogData) error {
 	extra := map[string]interface{}{}
 	err := json.Unmarshal([]byte(data.Extra), &extra)
 	if err != nil {

@@ -1,9 +1,9 @@
-package api
+package httpapi
 
 import (
 	"github.com/allentom/haruka"
 	"github.com/projectxpolaris/youlog/datasource"
-	"github.com/projectxpolaris/youlog/datasource/sqlite"
+	"github.com/projectxpolaris/youlog/datasource/database"
 	"time"
 )
 
@@ -43,7 +43,7 @@ var logListHandler haruka.RequestHandler = func(context *haruka.Context) {
 	if len(requestInput.DistinctApp) > 0 && requestInput.DistinctApp == "1" {
 		queryBuilder.InDistinctApp(true)
 	}
-	count, logList, err := sqlite.DefaultSqliteDataSource.ReadLogs(queryBuilder)
+	count, logList, err := database.GetDefaultDataSource().ReadLogs(queryBuilder)
 	if err != nil {
 		AbortError(context, err, 500)
 		return
@@ -84,7 +84,7 @@ var applicationListHandler haruka.RequestHandler = func(context *haruka.Context)
 		queryBuilder.WithOrder(requestInput.Orders)
 	}
 	queryBuilder.InDistinctApp(true)
-	count, logList, err := sqlite.DefaultSqliteDataSource.ReadLogs(queryBuilder)
+	count, logList, err := database.GetDefaultDataSource().ReadLogs(queryBuilder)
 	if err != nil {
 		AbortError(context, err, 500)
 		return
@@ -101,5 +101,12 @@ var applicationListHandler haruka.RequestHandler = func(context *haruka.Context)
 		"page":     context.Param["page"].(int),
 		"pageSize": context.Param["pageSize"].(int),
 		"result":   data,
+	})
+}
+
+var serviceInfoHandler haruka.RequestHandler = func(context *haruka.Context) {
+	context.JSON(haruka.JSON{
+		"success": true,
+		"name":    "YouLog service",
 	})
 }

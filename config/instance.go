@@ -1,32 +1,34 @@
 package config
 
-import viper "github.com/spf13/viper"
+import (
+	"github.com/allentom/harukap/config"
+	"os"
+)
 
+var DefaultConfigProvider *config.Provider
 var Instance Config
 
-type Config struct {
-	Addr    string
-	ApiAddr string
-	Output  []string
+func InitConfigProvider() error {
+	var err error
+	customConfigPath := os.Getenv("YOULOG_CONFIG_PATH")
+	DefaultConfigProvider, err = config.NewProvider(func(provider *config.Provider) {
+		ReadConfig(provider)
+	}, customConfigPath)
+	return err
 }
 
-func ReadConfig() error {
-	configer := viper.New()
-	configer.AddConfigPath("./")
-	configer.AddConfigPath("../")
-	configer.SetConfigType("yaml")
-	configer.SetConfigName("config")
-	err := configer.ReadInConfig()
-	if err != nil {
-		return err
-	}
-	configer.SetDefault("addr", ":50052")
-	configer.SetDefault("api_addr", ":8401")
-	configer.SetDefault("output", []string{"stdout"})
+type Config struct {
+	Addr   string
+	Output []string
+}
+
+func ReadConfig(provider *config.Provider) error {
+	provider.Manager.SetDefault("addr", ":50052")
+	provider.Manager.SetDefault("api_addr", ":8401")
+	provider.Manager.SetDefault("output", []string{"stdout"})
 	Instance = Config{
-		Addr:    configer.GetString("addr"),
-		ApiAddr: configer.GetString("api_addr"),
-		Output:  configer.GetStringSlice("output"),
+		Addr:   provider.Manager.GetString("rpc_addr"),
+		Output: provider.Manager.GetStringSlice("output"),
 	}
 	return nil
 }
